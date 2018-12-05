@@ -1,0 +1,10 @@
+E:\Projects\CSProjects\UniLua\Project\UniToLua\UniToLuaGener\bin\Debug\UniToLuaGener.exe.config
+E:\Projects\CSProjects\UniLua\Project\UniToLua\UniToLuaGener\bin\Debug\UniToLuaGener.exe
+E:\Projects\CSProjects\UniLua\Project\UniToLua\UniToLuaGener\bin\Debug\UniToLuaGener.pdb
+E:\Projects\CSProjects\UniLua\Project\UniToLua\UniToLuaGener\bin\Debug\UniToLua.dll
+E:\Projects\CSProjects\UniLua\Project\UniToLua\UniToLuaGener\bin\Debug\UniToLua.pdb
+E:\Projects\CSProjects\UniLua\Project\UniToLua\UniToLuaGener\obj\Debug\UniToLuaGener.csprojAssemblyReference.cache
+E:\Projects\CSProjects\UniLua\Project\UniToLua\UniToLuaGener\obj\Debug\UniToLuaGener.csproj.CoreCompileInputs.cache
+E:\Projects\CSProjects\UniLua\Project\UniToLua\UniToLuaGener\obj\Debug\UniToLuaGener.csproj.CopyComplete
+E:\Projects\CSProjects\UniLua\Project\UniToLua\UniToLuaGener\obj\Debug\UniToLuaGener.exe
+E:\Projects\CSProjects\UniLua\Project\UniToLua\UniToLuaGener\obj\Debug\UniToLuaGener.pdb
