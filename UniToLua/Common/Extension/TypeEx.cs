@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace Common
+namespace UniToLua.Common
 {
     public static class TypeEx
     {

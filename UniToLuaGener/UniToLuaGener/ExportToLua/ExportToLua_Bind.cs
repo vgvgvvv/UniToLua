@@ -2,7 +2,7 @@ using System;
 using System.CodeDom;
 using System.Collections;
 using System.Collections.Generic;
-using Common;
+using UniToLua.Common;
 using UniLua;
 
 namespace UniToLuaGener

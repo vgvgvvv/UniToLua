@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Common
+namespace UniToLua.Common
 {
     public static class DirectoryEx
     {

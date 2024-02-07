@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Common;
+using UniToLua.Common;
 using UniLua;
 
 namespace UniToLuaGener

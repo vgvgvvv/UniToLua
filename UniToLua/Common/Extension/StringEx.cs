@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Common
+namespace UniToLua.Common
 {
     /// <summary>
     /// 通过编写方法并且添加属性可以做到转换至String 如：

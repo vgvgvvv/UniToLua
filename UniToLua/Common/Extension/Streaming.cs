@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Common.Extension
+namespace UniToLua.Common.Extension
 {
     public static class StreamingEx
     {

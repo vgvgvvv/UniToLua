@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Common;
+using UniToLua.Common;
 using Newtonsoft.Json.Linq;
 using UniToLua;
 

@@ -1,6 +1,6 @@
 using System;
 
-namespace Common
+namespace UniToLua.Common
 {
     public class DateLogger : ILogger
     {

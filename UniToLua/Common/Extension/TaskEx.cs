@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Common.Extension
+namespace UniToLua.Common.Extension
 {
     public class TaskEx
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Common;
+using UniToLua.Common;
 
 namespace UniToLuaGener
 {

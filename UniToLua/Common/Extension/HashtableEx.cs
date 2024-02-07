@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 
-namespace Common
+namespace UniToLua.Common
 {
     public static class HashtableEx
     {

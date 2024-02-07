@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Common
+namespace UniToLua.Common
 {
     public static class AssemblyEx
     {

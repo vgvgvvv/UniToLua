@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 
-namespace Common
+namespace UniToLua.Common
 {
     public class CodeGener
     {
