@@ -55,10 +55,6 @@
     <Compile Include="Test\TestLuaWrapGener.cs" />
     <Compile Include="Test\TestUniLua.cs" />
     <Compile Include="Test\Util.cs" />
-    <Compile Include="WrapClasses\LuaBinder.cs" />
-    <Compile Include="WrapClasses\TestUniToLua_TestClasses_MyClassWrap.cs" />
-    <Compile Include="WrapClasses\TestUniToLua_TestClasses_MyEnumWrap.cs" />
-    <Compile Include="WrapClasses\TestUniToLua_TestClasses_MyStaticLibWrap.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Lua\TestLuaRegisterClass.lua" />
@@ -78,7 +74,9 @@
       <Name>UniToLua</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="WrapClasses\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Lua\TestLuaRegister.lua" />
   </ItemGroup>

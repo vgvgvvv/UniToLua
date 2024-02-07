@@ -11,19 +11,16 @@ namespace TestUniToLua
         [Test]
         public void TestGenWrap()
         {
-            var exporter = new ExportToLua()
-            {
-                dllPath = @"E:\Projects\CSProjects\UniLua\Project\UniToLua\TestUniToLua\bin\Debug\TestUniToLua.dll",
-                outputPath = @"E:\Projects\CSProjects\UniLua\Project\UniToLua\TestUniToLua\WrapClasses"
-            };
-            exporter.GenAll();
+            var dllPath = @"E:\Projects\CSProjects\UniLua\Project\UniToLua\TestUniToLua\bin\Debug\TestUniToLua.dll";
+            var outputPath = @"E:\Projects\CSProjects\UniLua\Project\UniToLua\TestUniToLua\WrapClasses"; 
+            ExportToLua.GenAll(dllPath, outputPath);
         }
 
         [Test]
         public void TestAutoBindLua()
         {
             LuaState state = Util.InitTestEnv();
-            LuaBinder.Bind(state);
+            //LuaBinder.Bind(state);
 
             if (state.L_DoFile("TestAutoRegister.lua") != ThreadStatus.LUA_OK)
             {

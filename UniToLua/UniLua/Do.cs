@@ -11,18 +11,25 @@ namespace UniLua
 	public class LuaRuntimeException : Exception
 	{
 		public ThreadStatus ErrCode { get; private set; }
+		public string Message { get; }
 
-		public LuaRuntimeException( ThreadStatus errCode )
+		public LuaRuntimeException( ThreadStatus errCode, string message)
 		{
 			ErrCode = errCode;
+			Message = message;
+		}
+
+		public override string ToString()
+		{
+			return $"error code : {ErrCode} , message: {Message}";
 		}
 	}
 
 	public partial class LuaState
 	{
-		internal void D_Throw( ThreadStatus errCode )
+		internal void D_Throw( ThreadStatus errCode, string message)
 		{
-			throw new LuaRuntimeException( errCode );
+			throw new LuaRuntimeException(errCode, message);
 		}
 
 		private ThreadStatus D_RawRunProtected<T>( PFuncDelegate<T> func, ref T ud )
@@ -92,7 +99,7 @@ namespace UniLua
 				else if( NumCSharpCalls >=
 						(LuaLimits.LUAI_MAXCCALLS + (LuaLimits.LUAI_MAXCCALLS>>3))
 					)
-					D_Throw( ThreadStatus.LUA_ERRERR );
+					D_Throw( ThreadStatus.LUA_ERRERR, "CSharp Stack Overflow");
 			}
 			if( !allowYield )
 				NumNonYieldable++;
@@ -299,7 +306,7 @@ namespace UniLua
 		{
 			int size = Stack.Length;
 			if(size > LuaConf.LUAI_MAXSTACK)
-				D_Throw(ThreadStatus.LUA_ERRERR);
+				D_Throw(ThreadStatus.LUA_ERRERR, "Grow Stack Error : size > LuaConf.LUAI_MAXSTACK");
 
 			int needed = Top.Index + n + LuaDef.EXTRA_STACK;
 			int newsize = 2 * size;

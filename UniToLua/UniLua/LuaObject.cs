@@ -167,6 +167,13 @@ namespace UniLua
 			UInt64Value = 0;
 			OValue = v;
 		}
+        internal void SetUValue(LuaUserDataValue v)
+        {
+            Tt = (int) LuaType.LUA_TUSERDATA;
+            NValue = 0.0;
+            UInt64Value = 0;
+			OValue = v;
+        }
 		internal void SetClLValue(LuaLClosureValue v) {
 #if DEBUG_DUMMY_TVALUE_MODIFY
 			CheckLock();

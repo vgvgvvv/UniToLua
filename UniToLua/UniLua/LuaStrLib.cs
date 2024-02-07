@@ -348,7 +348,7 @@ namespace UniLua
 			var lua = ms.Lua;
 			int i = (int)(l - '1');
 			if( i < 0 || i >= ms.Level || ms.Capture[i].Len == CAP_UNFINISHED )
-				return lua.L_Error( "invalid capture index %d", i+1 );
+				return lua.L_Error( "invalid capture index {0}", i+1 );
 			return i;
 		}
 
@@ -812,7 +812,7 @@ namespace UniLua
 			b.Append(ms.Src.Substring(s, (e - s)));  /* keep original text */
 		  }
 		  else if (!lua.IsString(-1))
-			lua.L_Error("invalid replacement value (a %s)", lua.L_TypeName(-1));
+			lua.L_Error("invalid replacement value (a {0})", lua.L_TypeName(-1));
 	      else
 			b.Append(lua.ToString(-1));
 		}

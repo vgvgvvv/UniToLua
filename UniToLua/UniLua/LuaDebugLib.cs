@@ -10,6 +10,7 @@ namespace UniLua
 			NameFuncPair[] define = new NameFuncPair[]
 			{
 				new NameFuncPair( "traceback", 	DBG_Traceback	),
+                new NameFuncPair( "dumpstack",  DumpStack   ),
 			};
 
 			lua.L_NewLib( define );
@@ -18,6 +19,14 @@ namespace UniLua
 
 		private static int DBG_Traceback( ILuaState lua )
 		{
+			return 0;
+		}
+
+        private static int DumpStack(ILuaState lua)
+        {
+
+            lua.DumpStack();
+
 			return 0;
 		}
 	}

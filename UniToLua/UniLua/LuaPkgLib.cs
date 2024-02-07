@@ -154,7 +154,6 @@ namespace UniLua
 				lua.L_Gsub( path, AUXMARK, def );
 				lua.Remove( -2 );
 			}*/
-			SetProgDir( lua );
 			lua.SetField( -2, fieldName );
 		}
 
@@ -164,15 +163,6 @@ namespace UniLua
 			bool res = lua.ToBoolean( -1 );
 			lua.Pop( 1 );
 			return res;
-		}
-
-		private static void SetProgDir( ILuaState lua )
-		{
-			// TODO: unity 读本地文件?
-			//
-			// 下面的代码在编辑器中可以运行, 但是 build 后运行时会 crash
-			// var pgs = System.Diagnostics.Process.GetCurrentProcess();
-			// ULDebug.Log( pgs.MainModule.FileName );
 		}
 
 		private static int SearcherPreload( ILuaState lua )

@@ -83,11 +83,14 @@ namespace UniLua
 		void PushInteger( int n );
 		void PushUnsigned( uint n );
 		string PushString( string s );
+		void PushLuaTable(LuaTable table);
 		void PushCSharpFunction( CSharpFunctionDelegate f );
 		void PushCSharpClosure( CSharpFunctionDelegate f, int n );
+        void PushLuaClosure(LuaLClosureValue f);
 		void PushValue( int index );
 		void PushGlobalTable();
 		void PushLightUserData( object o );
+        void PushUserData(object v, LuaTable metaTable, int len);
 		void PushUInt64( UInt64 o );
 		bool PushThread();
 
@@ -203,10 +206,11 @@ namespace UniLua
 		{
 			if( given != null && given.IndexOf(expected[0]) == -1 )
 			{
-				O_PushString( string.Format(
+				string errorMsg = string.Format(
 					"attempt to load a {0} chunk (mode is '{1}')",
-					expected, given ) );
-				D_Throw( ThreadStatus.LUA_ERRSYNTAX );
+					expected, given);
+				O_PushString(errorMsg);
+				D_Throw( ThreadStatus.LUA_ERRSYNTAX, errorMsg);
 			}
 		}
 
@@ -460,7 +464,7 @@ namespace UniLua
 			Top = Stack[firstArg];
 			Top.V.SetSValue(msg);
 			IncrTop();
-			D_Throw( ThreadStatus.LUA_RESUME_ERROR );
+			D_Throw( ThreadStatus.LUA_RESUME_ERROR, msg);
 		}
 
 		// check whether thread has suspended protected call
@@ -624,7 +628,7 @@ namespace UniLua
 					ci.Context = context;
 				}
 				ci.FuncIndex = Top.Index - (numResults + 1);
-				D_Throw( ThreadStatus.LUA_YIELD );
+				D_Throw( ThreadStatus.LUA_YIELD, "lua yield error");
 			}
 			Utl.Assert( (ci.CallStatus & CallStatus.CIST_HOOKED) != 0 ); // must be inside a hook
 			return 0;
@@ -1234,6 +1238,19 @@ namespace UniLua
 			}
 		}
 
+		void ILuaAPI.PushLuaTable(LuaTable table)
+		{
+			if( table == null )
+			{
+				API.PushNil();
+			}
+			else
+			{
+				Top.V.SetHValue(table);
+				ApiIncrTop();
+			}
+		}
+
 		void ILuaAPI.PushCSharpFunction( CSharpFunctionDelegate f )
 		{
 			API.PushCSharpClosure( f, 0 );
@@ -1262,6 +1279,12 @@ namespace UniLua
 			ApiIncrTop();
 		}
 
+        void ILuaAPI.PushLuaClosure(LuaLClosureValue f)
+        {
+			Top.V.SetClLValue(f);
+			ApiIncrTop();
+		}
+
 		void ILuaAPI.PushValue( int index )
 		{
 			StkId addr;
@@ -1280,6 +1303,17 @@ namespace UniLua
 		void ILuaAPI.PushLightUserData( object o )
 		{
 			Top.V.SetPValue( o );
+			ApiIncrTop();
+		}
+
+		void ILuaAPI.PushUserData(object v, LuaTable metaTable, int len)
+		{
+			Top.V.SetUValue(new LuaUserDataValue()
+            {
+				Value = v,
+				MetaTable = metaTable,
+				Length = len
+            });
 			ApiIncrTop();
 		}
 
@@ -1430,6 +1464,12 @@ namespace UniLua
 				return addr.V.NValue;
 			}
 
+			if (addr.V.TtIsUInt64())
+			{
+				isnum = true;
+				return addr.V.UInt64Value;
+			}
+
 			if(addr.V.TtIsString()) {
 				var n = new TValue();
 				if(V_ToNumber(addr, ref n)) {
@@ -1560,7 +1600,7 @@ namespace UniLua
 
 			switch(addr.V.Tt) {
 				case (int)LuaType.LUA_TUSERDATA:
-					throw new System.NotImplementedException();
+                    return addr.V.RawUValue().Value;
 				case (int)LuaType.LUA_TLIGHTUSERDATA: { return addr.V.OValue; }
 				case (int)LuaType.LUA_TUINT64: { return addr.V.UInt64Value; }
 				default: return null;

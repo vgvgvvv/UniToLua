@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
 
 namespace UniLua
 {
@@ -95,7 +99,7 @@ namespace UniLua
             public static Func<LuaState, int, bool> Check = DefaultCheck;
             public static Type Type = typeof(T);
             public static bool IsValueType = Type.IsValueType;
-            public static bool IsArray = Type.IsArray;
+            public static bool IsArray = Type.IsArray || Type == typeof(System.Array);
 
             public static bool IsNumberType = IsNumber();
             public static bool IsBoolType = Type == typeof(bool) || IsNumberType;
@@ -123,25 +127,61 @@ namespace UniLua
                     return true;
                 }
 
+                string errMsg = string.Empty;
                 var luaType = (LuaType)value.Tt;
+                bool result = true;
                 switch (luaType)
                 {
                     case LuaType.LUA_TNIL:
-                        return true;
+                        result = true;
+                        break;
                     case LuaType.LUA_TNUMBER:
                     case LuaType.LUA_TUINT64:
-                        return IsNumberType;
+                        result = IsNumberType;
+                        break;
                     case LuaType.LUA_TBOOLEAN:
-                        return IsBoolType;
+                        result = IsBoolType;
+                        break;
                     case LuaType.LUA_TSTRING:
-                        return IsStringType;
+                        // 任何类型都可以tostring，所以总是为true
+                        result = true;
+                        break;
                     case LuaType.LUA_TTABLE:
+                        result = value.OValue is T ||
+                               IsArray ||
+                               (Type.IsGenericType && Type.GetGenericTypeDefinition() == typeof(List<>)) ||
+                               Type == typeof(ArrayList) ||
+                               (Type.IsGenericType && Type.GetGenericTypeDefinition() == typeof(HashSet<>)) ||
+                                Type == typeof(Hashtable) ||
+                               (Type.IsGenericType && Type.GetGenericTypeDefinition() == typeof(Dictionary<,>)) ||
+                                CheckClassFromTable<T>(L, value.OValue, pos, ref errMsg);
+                            break;
                     case LuaType.LUA_TFUNCTION:
+                        result = value.OValue is LuaLClosureValue;
+                        break;
                     case LuaType.LUA_TLIGHTUSERDATA:
-                        return value.OValue is T;
+                        result = value.OValue is T;
+                        break;
+                    case LuaType.LUA_TUSERDATA:
+                        if (value.OValue is LuaUserDataValue userdata)
+                        {
+                            result = userdata.Value is T;
+                        }
+                        else
+                        {
+                            result = false;
+                        }
+                        break;
                     default:
-                        return false;
+                        result = false;
+                        break;
                 }
+
+                if (result == false)
+                {
+                    L.L_Error($"Check failed !!!! {luaType.ToString()} to {typeof(T).FullName} failed!!!! {errMsg}");
+                }
+                return result;
 
             }
 
@@ -172,10 +212,35 @@ namespace UniLua
             {
                 return Type == typeof(short) || Type == typeof(ushort) ||
                        Type == typeof(int) || Type == typeof(uint) ||
-                       Type == typeof(long) || Type == typeof(ulong);
+                       Type == typeof(long) || Type == typeof(ulong) ||
+                        Type == typeof(float) || Type == typeof(double);
+            }
+
+            private static bool CheckClassFromTable<T1>(LuaState L, object obj, int pos, ref string errMsg)
+            {
+                if (obj is LuaTable table)
+                {
+                    var cons = typeof(T1).GetConstructor(new Type[0]);
+                    if (cons != null)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        errMsg = "when convert obj from table, obj 's new() cannot have any param!!!";
+                    }
+
+                }
+                else
+                {
+                    errMsg = "obj must be a table!!!";
+                }
+
+                return false;
             }
 
         }
+
     }
 
     

@@ -275,7 +275,7 @@ namespace UniLua
 				StkId errFunc = RestoreStack( ErrFunc );
 
 				if(!errFunc.V.TtIsFunction())
-					D_Throw( ThreadStatus.LUA_ERRERR );
+					D_Throw( ThreadStatus.LUA_ERRERR, "error function is not a function");
 
 				var below = Stack[Top.Index-1];
 				Top.V.SetObj(ref below.V);
@@ -285,7 +285,8 @@ namespace UniLua
 				D_Call( below, 1, false );
 			}
 
-			D_Throw( ThreadStatus.LUA_ERRRUN );
+			var msg = Stack[Top.Index-1];
+			D_Throw( ThreadStatus.LUA_ERRRUN, msg.V.ToString());
 		}
 
 		private string UpvalName( LuaProto p, int uv )
@@ -458,10 +459,10 @@ namespace UniLua
 			return false;
 		}
 
-		private void G_SimpleTypeError( ref TValue o, string op )
+		private void G_SimpleTypeError(StkId key, ref TValue o, string op )
 		{
 			string t = ObjTypeName( ref o );
-			G_RunError( "attempt to {0} a {1} value", op, t );
+			G_RunError( "attempt to {0} a {1} value by {2}", op, t, key.V);
 		}
 
 		private void G_TypeError( StkId o, string op )

@@ -157,9 +157,10 @@ namespace UniLua
 			catch( UndumpException e )
 			{
 				var Lua = (LuaState)lua;
-				Lua.O_PushString( string.Format(
-					"{0}: {1} precompiled chunk", name, e.Why ) );
-				Lua.D_Throw( ThreadStatus.LUA_ERRSYNTAX );
+				string errorMsg = string.Format(
+					"{0}: {1} precompiled chunk", name, e.Why);
+				Lua.O_PushString(errorMsg);
+				Lua.D_Throw( ThreadStatus.LUA_ERRSYNTAX, errorMsg);
 				return null;
 			}
 		}

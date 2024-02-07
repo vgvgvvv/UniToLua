@@ -79,7 +79,7 @@ namespace TestUniToLua
             LuaState state = Util.InitTestEnv();
             state.BeginModule(null);
             state.BeginModule("Test");
-            state.BeginEnum("Hello");
+            state.BeginEnum(typeof(HelloEnum));
             state.RegVar("ENUM_A", GetA, null);
             state.RegVar("ENUM_B", GetB, null);
             state.EndEnum();
@@ -165,7 +165,7 @@ namespace TestUniToLua
 
         private int Test_TestClass_New(ILuaState L)
         {
-            L.PushValue(new TestClass());
+            L.PushAny(new TestClass());
             return 1;
         }
 

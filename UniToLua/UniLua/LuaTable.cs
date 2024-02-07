@@ -2,6 +2,7 @@
 // #define DEBUG_DUMMY_TVALUE_MODIFY
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace UniLua
@@ -12,6 +13,8 @@ namespace UniLua
 		public LuaTable MetaTable;
 		public uint NoTagMethodFlags;
 
+		public bool IsArray => Length > 0 && GetKeys().Count == 0;
+		
 		public LuaTable(LuaState l) {
 			InitLuaTable(l);
 		}
@@ -68,6 +71,26 @@ namespace UniLua
 			return TheNilValue;
 		}
 
+        public List<StkId> GetKeys()
+        {
+            List <StkId> keys = new List<StkId>();
+
+			foreach (var hNode in HashPart)
+            {
+				for (var node = hNode; node != null; node = node.Next)
+                {
+                    var type = (LuaType) node.Key.V.Tt;
+
+					if (type != LuaType.LUA_TNIL)
+                    {
+                        keys.Add(node.Key);
+					}
+				}
+			}
+
+            return keys;
+        }
+
 		public void Set(ref TValue key, ref TValue val)
 		{
 			var cell = Get(ref key);
@@ -90,6 +113,118 @@ namespace UniLua
 			// DumpParts();
 		}
 
+		public Hashtable ToHashTable()
+		{
+			var t = typeof(Hashtable);
+			var keyType = typeof(object);
+			var valueType = typeof(object);
+			var result = Activator.CreateInstance(t) as Hashtable;
+
+			var addMethod = t.GetMethod("Add");
+                    
+			var keys = GetKeys();
+			var keySet = new HashSet<object>();
+			foreach (var keyStkId in keys)
+			{
+				var key = L.GetAny(keyStkId.V, keyType, true);
+				if (!keySet.Contains(key))
+				{
+					keySet.Add(key);
+					var valueStkId = Get(ref keyStkId.V);
+					var value = L.GetAny(valueStkId.V, valueType, true);
+					addMethod.Invoke(result, new[] {key, value});
+				}
+			}
+
+			return result;
+		}
+
+		public Array ToArray(Type elementType = null)
+		{
+			var t = typeof(Array);
+			var et = elementType ?? typeof(object);
+			var array = Array.CreateInstance(et, Length);
+			for (int i = 0; i < Length; i++)
+			{
+				int tableKey = i + 1;
+				array.SetValue(L.GetAny(GetInt(tableKey).V, et, true), i);
+			}
+
+			return array;
+		}
+
+		public ArrayList ToArrayList()
+		{
+			var result = new ArrayList();
+			for (int i = 0; i < Length; i++)
+			{
+				int tableKey = i + 1;
+				result.Add(L.GetAny(GetInt(tableKey).V, typeof(object), true));
+			}
+
+			return result;
+		}
+
+		public List<V> ToList<V>()
+		{
+			var t = typeof(List<V>);
+			System.Type itemType = t.GetGenericArguments()[0];
+			var result = Activator.CreateInstance(t) as List<V>;
+			var addMethod = t.GetMethod("Add");
+			for (int i = 0; i < Length; i++)
+			{
+				int tableKey = i + 1;
+				var item = L.GetAny(GetInt(tableKey).V, itemType, true);
+				addMethod.Invoke(result, new [] {item});
+			}
+
+			return result;
+		}
+
+		public HashSet<V> ToHashSet<V>()
+		{
+			var t = typeof(HashSet<V>);
+			System.Type itemType = t.GetGenericArguments()[0];
+			var result = Activator.CreateInstance(t) as HashSet<V>;
+			var addMethod = t.GetMethod("Add");
+			for (int i = 0; i < Length; i++)
+			{
+				int tableKey = i + 1;
+				var item = L.GetAny(GetInt(tableKey).V, itemType, true);
+				addMethod.Invoke(result, new [] {item});
+			}
+
+			return result;
+		}
+		
+		public Dictionary<K, V> ToDictionary<K, V>()
+		{
+			var t = typeof(Dictionary<K, V>);
+			System.Type[] genericArgumentTypes = t.GetGenericArguments();
+			var keyType = genericArgumentTypes[0];
+			var valueType = genericArgumentTypes[1];
+			var result = Activator.CreateInstance(t) as Dictionary<K,V>;
+
+			var addMethod = t.GetMethod("Add");
+
+			var keys = GetKeys();
+			var keySet = new HashSet<object>();
+			foreach (var keyStkId in keys)
+			{
+				var key = L.GetAny(keyStkId.V, keyType, true);
+				if (!keySet.Contains(key))
+				{
+					keySet.Add(key);
+					var valueStkId = Get(ref keyStkId.V);
+					var value = L.GetAny(valueStkId.V, valueType, true);
+					addMethod.Invoke(result, new[] {key, value});
+				}
+                       
+			}
+
+			return result;
+		}
+		
 		/*
 		** returns the index of a `key' for table traversals. First goes all
 		** elements in the array part, then elements in the hash part. The
@@ -287,22 +422,25 @@ namespace UniLua
 		private HNode NewHNode()
 		{
 			HNode ret;
-			if (CacheHead == null)
+			lock (CacheHeadLock)
 			{
-				ret = new HNode();
-				ret.Key = new StkId();
-				ret.Val = new StkId();
-			}
-			else
-			{
-				lock(CacheHeadLock) {
-					ret = CacheHead;
-					CacheHead = CacheHead.Next;
+				if (CacheHead == null)
+				{
+					ret = new HNode();
+					ret.Key = new StkId();
+					ret.Val = new StkId();
 				}
-				ret.Next = null;
-				ret.Index = 0;
-				ret.Key.V.SetNilValue();
-				ret.Val.V.SetNilValue();
+				else
+				{
+					{
+						ret = CacheHead;
+						CacheHead = CacheHead.Next;
+					}
+					ret.Next = null;
+					ret.Index = 0;
+					ret.Key.V.SetNilValue();
+					ret.Val.V.SetNilValue();
+				}
 			}
 
 			return ret;
@@ -480,9 +618,10 @@ namespace UniLua
 			return na;
 		}
 
-		private static int[] Nums = new int[MAXBITS + 1];
+		
 		private void Rehash(ref TValue k)
 		{
+			int[] Nums = new int[MAXBITS + 1];
 			for(int i=0; i<=MAXBITS; ++i) { Nums[i] = 0; }
 
 			int nasize = NumUseArray(ref Nums);

@@ -1,4 +1,7 @@
-﻿namespace UniLua
+﻿using System;
+using UniToLua;
+
+namespace UniLua
 {
     public partial class LuaState
     {
@@ -10,12 +13,14 @@
 
         public void OpenToLua()
         {
-            
+
             //API.NewTable();             //table
             //API.SetGlobal("tolua");     //
 
+            InitTypeCheck();
             OpenCacheLuaVar();
             OpenPreload();
+
         }
 
 
@@ -57,6 +62,11 @@
             API.Pop(1);
             
 
+        }
+
+        private void InitTypeCheck()
+        {
+            // TypeChecker<Array>.Init();
         }
     }
 }

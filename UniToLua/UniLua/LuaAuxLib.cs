@@ -137,7 +137,7 @@ namespace UniLua
 				GetInfo( "Sl", ar ); // get info about it
 				if( ar.CurrentLine > 0 ) // is there info?
 				{
-					API.PushString( string.Format( "{0}:{1}: ", ar.ShortSrc, ar.CurrentLine ) );
+					API.PushString( string.Format( "{0}:{1}: ", ar.Source, ar.CurrentLine ) );
 					return;
 				}
 			}
@@ -523,6 +523,7 @@ namespace UniLua
 				switch( API.Type(index) )
 				{
 					case LuaType.LUA_TNUMBER:
+					case LuaType.LUA_TUINT64:
 					case LuaType.LUA_TSTRING:
 						API.PushValue( index );
 						break;

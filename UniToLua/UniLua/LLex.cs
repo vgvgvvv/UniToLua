@@ -570,10 +570,11 @@ namespace UniLua
 
         private void _Error( string error )
         {
-			Lua.O_PushString( string.Format(
-				"{0}:{1}: {2}",
-				Source, LineNumber, error ) );
-			Lua.D_Throw( ThreadStatus.LUA_ERRSYNTAX );
+	        string errorMsg = string.Format(
+		        "{0}:{1}: {2}",
+		        Source, LineNumber, error);
+			Lua.O_PushString(errorMsg);
+			Lua.D_Throw( ThreadStatus.LUA_ERRSYNTAX, errorMsg);
         }
 
 		private void _LexError( string info, string msg, int tokenType )

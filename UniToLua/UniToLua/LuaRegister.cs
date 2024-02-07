@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using Common;
 
 namespace UniLua
 {
@@ -182,16 +183,19 @@ namespace UniLua
 
         public int BeginClass(Type bindClass, Type baseClass)
         {
-            API.PushString(bindClass.Name);     //table name
+            var bindClassName = bindClass.GetFriendlyName();
+            API.PushString(bindClassName);     //table name
             API.NewTable();                     //table name classtable
             AddToLoaded();
 
-            if (!ClassMetaRefDict.TryGetValue(bindClass.Name, out var classRef))
+            var bindClassFullName = bindClass.GetTypeNameFromCodeDom();
+            
+            if (!ClassMetaRefDict.TryGetValue(bindClassFullName, out var classRef))
             {
                 API.NewTable();                             //table name classtable mt
                 API.PushValue(-1);                          //table name classtable mt mt
                 classRef = L_Ref(LuaDef.LUA_REGISTRYINDEX); //table name classtable mt
-                ClassMetaRefDict.Add(bindClass.Name, classRef);
+                ClassMetaRefDict.Add(bindClassFullName, classRef);
             }
             else
             {
@@ -202,12 +206,15 @@ namespace UniLua
 
             if (baseClass != null)
             {
-                if (ClassMetaRefDict.TryGetValue(baseClass.Name, out var baseClassRef))
+                var baseClassName = baseClass.GetTypeNameFromCodeDom();
+                var baseClassFullName = bindClass.GetTypeNameFromCodeDom();
+
+                if (!ClassMetaRefDict.TryGetValue(baseClassFullName, out var baseClassRef))
                 {
                     API.NewTable();                                     //table name classtable mt bmt
                     API.PushValue(-1);                                  //table name classtable mt bmt bmt
                     baseClassRef = L_Ref(LuaDef.LUA_REGISTRYINDEX);     //table name classtable mt bmt
-                    ClassMetaRefDict.Add(baseClass.Name, baseClassRef);
+                    ClassMetaRefDict.Add(baseClassFullName, baseClassRef);
                     API.SetMetaTable(-2);                               //table name classtable mt
                 }
                 else
@@ -295,7 +302,7 @@ namespace UniLua
         {
             var t = API.Type(1);
 
-            if (t == LuaType.LUA_TLIGHTUSERDATA)
+            if (t == LuaType.LUA_TUSERDATA)
             {
                 API.PushValue(1);
                 while (API.GetMetaTable(-1))
@@ -334,7 +341,7 @@ namespace UniLua
                     return 1;
                 }
 
-                return L_Error("field or property %s does not exist", API.ToString(2));
+                return L_Error("field or property {0} does not exist", API.ToString(2));
 
             }
             else if(t == LuaType.LUA_TTABLE)
@@ -387,7 +394,7 @@ namespace UniLua
                     return 1;
                 }
 
-                return L_Error("field or property %s does not exist", API.ToString(2));
+                return L_Error("field or property {0} does not exist", API.ToString(2));
             }
 
             API.PushNil();
@@ -404,7 +411,7 @@ namespace UniLua
         {
             var t = API.Type(1);
 
-            if (t == LuaType.LUA_TLIGHTUSERDATA)
+            if (t == LuaType.LUA_TUSERDATA)
             {
                 API.GetMetaTable(1);        //t k v mt
                 while (API.IsTable(-1))
@@ -477,7 +484,7 @@ namespace UniLua
             }
 
             API.SetTop(3);
-            return L_Error("field or property %s does not exist", API.ToString(2));
+            return L_Error("field or property {0} does not exist", API.ToString(2));
         }
 
         #endregion
@@ -558,7 +565,7 @@ namespace UniLua
             }
 
             
-            return L_Error("field or property %s does not exist", API.ToString(2)); ;
+            return L_Error("field or property {0} does not exist", API.ToString(2)); ;
 
         }
 
@@ -588,22 +595,25 @@ namespace UniLua
 
             API.SetTop(3);
             
-            return L_Error("field or property %s does not exist", API.ToString(2)); ;
+            return L_Error("field or property {0} does not exist", API.ToString(2)); ;
         }
 
         #endregion
 
         #region Enum
 
-        public int BeginEnum(string enumName)
+        public int BeginEnum(Type enumType)
         {
+            var fullName = enumType.GetTypeNameFromCodeDom();
+            var enumName = enumType.Name;
+            
             API.PushString(enumName);       //enumName
             API.NewTable();                 //enumName table
 
             //加入到reference词典
             API.PushValue(-1);
             var reference = L_Ref(LuaDef.LUA_REGISTRYINDEX);
-            EnumRefDict.Add(enumName, reference);
+            EnumRefDict.Add(fullName, reference);
 
             AddToLoaded();                  
             API.NewTable();                 //enumName table table
@@ -704,7 +714,7 @@ namespace UniLua
         /// <summary>
         /// table
         /// </summary>
-        /// <param name="func"></param>
+        /// <param name="name"></param>
         /// <param name="get"></param>
         /// <param name="set"></param>
         public void RegVar(string name, CSharpFunctionDelegate get, CSharpFunctionDelegate set)
@@ -714,6 +724,7 @@ namespace UniLua
                 API.PushString(".get"); //table .get
                 API.RawGet(-2);         //table gettable
 
+                //创建gettable
                 if (!API.IsTable(-1))
                 {
                     API.Pop(1);             //table
@@ -733,15 +744,17 @@ namespace UniLua
 
             if (set != null)
             {
-                API.PushString(".set"); //table .get
-                API.RawGet(-2);         //table gettable
+                
+                API.PushString(".set"); //table .set
+                API.RawGet(-2);         //table settable
 
+                // 创建set table
                 if (!API.IsTable(-1))
                 {
-                    API.Pop(1);             //table
-                    API.NewTable();         //table table
-                    API.PushString(".set"); //table table .get
-                    API.PushValue(-2);      //table table .get table
+                    API.Pop(1);                 //table
+                    API.NewTable();               //table table
+                    API.PushString(".set");     //table table .set
+                    API.PushValue(-2);      //table table .set table
                     API.RawSet(-4);         //table table
                 }
 
@@ -752,6 +765,55 @@ namespace UniLua
                 API.Pop(1);
             }
 
+        }
+
+        public void RegEvent(string name, CSharpFunctionDelegate get, CSharpFunctionDelegate set, CSharpFunctionDelegate add, CSharpFunctionDelegate remove)
+        {
+
+            RegVar(name, get, set);
+            if (add != null)
+            {
+                API.PushString(".add"); //table .get
+                API.RawGet(-2);         //table gettable
+
+                //创建gettable
+                if (!API.IsTable(-1))
+                {
+                    API.Pop(1);             //table
+                    API.NewTable();         //table table
+                    API.PushString(".add"); //table table .get
+                    API.PushValue(-2);      //table table .get table
+                    API.RawSet(-4);         //table table
+                }
+
+                //设置get函数
+                API.PushString(name);
+                API.PushCSharpFunction(add);
+                API.RawSet(-3);
+                API.Pop(1);
+            }
+            
+            if (remove != null)
+            {
+                API.PushString(".remove"); //table .get
+                API.RawGet(-2);         //table gettable
+
+                //创建gettable
+                if (!API.IsTable(-1))
+                {
+                    API.Pop(1);             //table
+                    API.NewTable();         //table table
+                    API.PushString(".remove"); //table table .get
+                    API.PushValue(-2);      //table table .get table
+                    API.RawSet(-4);         //table table
+                }
+
+                //设置get函数
+                API.PushString(name);
+                API.PushCSharpFunction(remove);
+                API.RawSet(-3);
+                API.Pop(1);
+            }
         }
 
 
@@ -796,7 +858,7 @@ namespace UniLua
         private bool GetFromPreload()
         {
             API.SetTop(2);          //t k
-            API.SetMetaTable(1);    //t k mt
+            API.GetMetaTable(1);    //t k mt
             API.PushString(".name");//t k mt .name
             API.RawGet(-2);         //t k mt space
 
@@ -826,7 +888,6 @@ namespace UniLua
 
 
         #endregion
-
 
     }
 }

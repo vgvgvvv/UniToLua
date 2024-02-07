@@ -25,6 +25,10 @@ namespace UniLua
 			//var path = System.IO.Path.Combine(LUA_ROOT, filename);
 			var path = pathhook(filename);
 			try {
+				if (!File.Exists(path))
+				{
+					return false;
+				}
 				using( var stream = File.Open( path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite ) ) {
 					return true;
 				}

@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace UniToLuaGener
 {
@@ -53,19 +49,8 @@ usage UniToLuaGener -path:outputpath -dll:dllpath|dllpath|dllpath
 
             foreach (var dllPath in dllList)
             {
-                GenAll(dllPath);
+                ExportToLua.GenAll(dllPath, outputPath);
             }
-        }
-
-        private static void GenAll(string dllpath)
-        {
-            
-            var exporter = new ExportToLua()
-            {
-                dllPath = dllpath,
-                outputPath = outputPath
-            };
-            exporter.GenAll();
         }
     }
 }

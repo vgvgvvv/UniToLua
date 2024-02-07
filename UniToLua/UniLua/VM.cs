@@ -783,7 +783,7 @@ l_tforloop:
 				else {
 					tmObj = T_GetTMByObj(ref t.V, TMS.TM_INDEX);
 					if(tmObj.V.TtIsNil())
-						G_SimpleTypeError(ref t.V, "index" );
+						G_SimpleTypeError(key, ref t.V, "index" );
 				}
 
 				if(tmObj.V.TtIsFunction()) {
@@ -820,7 +820,7 @@ l_tforloop:
 				else {
 					tmObj = T_GetTMByObj(ref t.V, TMS.TM_NEWINDEX);
 					if(tmObj.V.TtIsNil())
-						G_SimpleTypeError(ref t.V, "index" );
+						G_SimpleTypeError(key, ref t.V, "newindex");
 				}
 
 				if(tmObj.V.TtIsFunction()) {
@@ -958,10 +958,19 @@ calltm:
 
 		private bool V_ToString(ref TValue v)
 		{
-			if(!v.TtIsNumber()) { return false; }
+			if (v.TtIsNumber())
+			{
+				v.SetSValue(v.NValue.ToString());
+				return true;
+			}
 
-			v.SetSValue(v.NValue.ToString());
-			return true;
+			if (v.TtIsUInt64())
+			{
+				v.SetSValue(v.UInt64Value.ToString());
+				return true;
+			}
+			
+			return false;
 		}
 
 		private LuaOp TMS2OP( TMS op )
