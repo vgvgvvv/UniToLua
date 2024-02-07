@@ -1,6 +1,0 @@
-E:\Projects\CSProjects\UniLua\Project\UniToLua\UniToLua\obj\Debug\UniToLua.csprojAssemblyReference.cache
-E:\Projects\CSProjects\UniLua\Project\UniToLua\UniToLua\obj\Debug\UniToLua.csproj.CoreCompileInputs.cache
-E:\Projects\CSProjects\UniLua\Project\UniToLua\UniToLua\bin\Debug\UniToLua.dll
-E:\Projects\CSProjects\UniLua\Project\UniToLua\UniToLua\bin\Debug\UniToLua.pdb
-E:\Projects\CSProjects\UniLua\Project\UniToLua\UniToLua\obj\Debug\UniToLua.dll
-E:\Projects\CSProjects\UniLua\Project\UniToLua\UniToLua\obj\Debug\UniToLua.pdb
