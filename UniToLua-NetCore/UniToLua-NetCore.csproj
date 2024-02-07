@@ -1,0 +1,231 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <RootNamespace>UniToLua_NetCore</RootNamespace>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Include="..\UniToLua\Common\Assembly\CodeGener.cs">
+        <Link>Common\Assembly\CodeGener.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\Common\Extension\ArrayEx.cs">
+        <Link>Common\Extension\ArrayEx.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\Common\Extension\AssemblyEx.cs">
+        <Link>Common\Extension\AssemblyEx.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\Common\Extension\BitConverterEx.cs">
+        <Link>Common\Extension\BitConverterEx.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\Common\Extension\DictionaryEx.cs">
+        <Link>Common\Extension\DictionaryEx.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\Common\Extension\DirectoryEx.cs">
+        <Link>Common\Extension\DirectoryEx.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\Common\Extension\EnumEx.cs">
+        <Link>Common\Extension\EnumEx.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\Common\Extension\FileEx.cs">
+        <Link>Common\Extension\FileEx.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\Common\Extension\HashtableEx.cs">
+        <Link>Common\Extension\HashtableEx.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\Common\Extension\IEnumerableEx.cs">
+        <Link>Common\Extension\IEnumerableEx.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\Common\Extension\JsonEx.cs">
+        <Link>Common\Extension\JsonEx.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\Common\Extension\ListEx.cs">
+        <Link>Common\Extension\ListEx.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\Common\Extension\ObjectEx.cs">
+        <Link>Common\Extension\ObjectEx.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\Common\Extension\PathEx.cs">
+        <Link>Common\Extension\PathEx.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\Common\Extension\RandomEx.cs">
+        <Link>Common\Extension\RandomEx.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\Common\Extension\ReflectEx.cs">
+        <Link>Common\Extension\ReflectEx.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\Common\Extension\Streaming.cs">
+        <Link>Common\Extension\Streaming.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\Common\Extension\StringEx.cs">
+        <Link>Common\Extension\StringEx.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\Common\Extension\TaskEx.cs">
+        <Link>Common\Extension\TaskEx.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\Common\Extension\ThreadHelper.cs">
+        <Link>Common\Extension\ThreadHelper.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\Common\Extension\TypeEx.cs">
+        <Link>Common\Extension\TypeEx.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\Common\Logger\CombineLogger.cs">
+        <Link>Common\Logger\CombineLogger.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\Common\Logger\ConsoleLogger.cs">
+        <Link>Common\Logger\ConsoleLogger.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\Common\Logger\DateLogger.cs">
+        <Link>Common\Logger\DateLogger.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\Common\Logger\DynamicLogger.cs">
+        <Link>Common\Logger\DynamicLogger.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\Common\Logger\FileLogger.cs">
+        <Link>Common\Logger\FileLogger.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\Common\Logger\Logger.cs">
+        <Link>Common\Logger\Logger.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\ByteString.cs">
+        <Link>UniLua\ByteString.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\Coder.cs">
+        <Link>UniLua\Coder.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\Common.cs">
+        <Link>UniLua\Common.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\Do.cs">
+        <Link>UniLua\Do.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\Dump.cs">
+        <Link>UniLua\Dump.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\LLex.cs">
+        <Link>UniLua\LLex.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\LuaAPI.cs">
+        <Link>UniLua\LuaAPI.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\LuaAuxLib.cs">
+        <Link>UniLua\LuaAuxLib.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\LuaBaseLib.cs">
+        <Link>UniLua\LuaBaseLib.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\LuaBitLib.cs">
+        <Link>UniLua\LuaBitLib.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\LuaCoroLib.cs">
+        <Link>UniLua\LuaCoroLib.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\LuaDebug.cs">
+        <Link>UniLua\LuaDebug.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\LuaDebugLib.cs">
+        <Link>UniLua\LuaDebugLib.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\LuaEncLib.cs">
+        <Link>UniLua\LuaEncLib.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\LuaFFILib.cs">
+        <Link>UniLua\LuaFFILib.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\LuaFile.cs">
+        <Link>UniLua\LuaFile.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\LuaFunc.cs">
+        <Link>UniLua\LuaFunc.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\LuaIOLib.cs">
+        <Link>UniLua\LuaIOLib.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\LuaMathLib.cs">
+        <Link>UniLua\LuaMathLib.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\LuaObject.cs">
+        <Link>UniLua\LuaObject.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\LuaOsLib.cs">
+        <Link>UniLua\LuaOsLib.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\LuaPkgLib.cs">
+        <Link>UniLua\LuaPkgLib.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\LuaState.cs">
+        <Link>UniLua\LuaState.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\LuaStrLib.cs">
+        <Link>UniLua\LuaStrLib.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\LuaTable.cs">
+        <Link>UniLua\LuaTable.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\LuaTableLib.cs">
+        <Link>UniLua\LuaTableLib.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\OpCodes.cs">
+        <Link>UniLua\OpCodes.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\Parser.cs">
+        <Link>UniLua\Parser.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\TagMethod.cs">
+        <Link>UniLua\TagMethod.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\ULDebug.cs">
+        <Link>UniLua\ULDebug.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\Undump.cs">
+        <Link>UniLua\Undump.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\Util.cs">
+        <Link>UniLua\Util.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniLua\VM.cs">
+        <Link>UniLua\VM.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniToLua\Arg.cs">
+        <Link>UniToLua\Arg.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniToLua\CallFunction.cs">
+        <Link>UniToLua\CallFunction.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniToLua\IToLua.cs">
+        <Link>UniToLua\IToLua.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniToLua\LuaException.cs">
+        <Link>UniToLua\LuaException.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniToLua\LuaInit.cs">
+        <Link>UniToLua\LuaInit.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniToLua\LuaRegister.cs">
+        <Link>UniToLua\LuaRegister.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniToLua\LuaUtil.cs">
+        <Link>UniToLua\LuaUtil.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniToLua\NoToLuaAttribute.cs">
+        <Link>UniToLua\NoToLuaAttribute.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniToLua\ToLuaAttribute.cs">
+        <Link>UniToLua\ToLuaAttribute.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\UniToLua\TypeChecker.cs">
+        <Link>UniToLua\TypeChecker.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLua\Utility\JsonLuaHelper.cs">
+        <Link>Utility\JsonLuaHelper.cs</Link>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+      <PackageReference Include="System.CodeDom" Version="8.0.0" />
+    </ItemGroup>
+
+</Project>

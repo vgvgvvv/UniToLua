@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestUniToLua", "TestUniToLu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniToLuaGener", "UniToLuaGener\UniToLuaGener.csproj", "{AB36F82A-F429-4B1C-85B5-7A985FF09A06}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniToLua-NetCore", "UniToLua-NetCore\UniToLua-NetCore.csproj", "{50687D56-36F4-48D5-BC78-C7C519922AFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniToLuaGener-NetCore", "UniToLuaGener-NetCore\UniToLuaGener-NetCore.csproj", "{75C43903-85E4-4C6D-A9E9-2930834FE44C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{AB36F82A-F429-4B1C-85B5-7A985FF09A06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB36F82A-F429-4B1C-85B5-7A985FF09A06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB36F82A-F429-4B1C-85B5-7A985FF09A06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50687D56-36F4-48D5-BC78-C7C519922AFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50687D56-36F4-48D5-BC78-C7C519922AFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50687D56-36F4-48D5-BC78-C7C519922AFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50687D56-36F4-48D5-BC78-C7C519922AFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75C43903-85E4-4C6D-A9E9-2930834FE44C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75C43903-85E4-4C6D-A9E9-2930834FE44C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75C43903-85E4-4C6D-A9E9-2930834FE44C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75C43903-85E4-4C6D-A9E9-2930834FE44C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

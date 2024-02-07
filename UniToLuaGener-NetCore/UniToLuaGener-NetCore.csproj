@@ -1,0 +1,78 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <RootNamespace>UniToLuaGener_NetCore</RootNamespace>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Include="..\UniToLuaGener\UniToLuaGener\CommonAPI.cs">
+        <Link>UniToLuaGener\CommonAPI.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLuaGener\UniToLuaGener\EmmyLuaLibExport.cs">
+        <Link>UniToLuaGener\EmmyLuaLibExport.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLuaGener\UniToLuaGener\ExportToLua\ExportToLua.cs">
+        <Link>UniToLuaGener\ExportToLua\ExportToLua.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLuaGener\UniToLuaGener\ExportToLua\ExportToLua_Bind.cs">
+        <Link>UniToLuaGener\ExportToLua\ExportToLua_Bind.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLuaGener\UniToLuaGener\ExportToLua\ExportToLua_DelegateFactory.cs">
+        <Link>UniToLuaGener\ExportToLua\ExportToLua_DelegateFactory.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLuaGener\UniToLuaGener\ExportToLua\ExportToLua_Util.cs">
+        <Link>UniToLuaGener\ExportToLua\ExportToLua_Util.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLuaGener\UniToLuaGener\ExportToLua\GenMember\ExportToLua_Construct.cs">
+        <Link>UniToLuaGener\ExportToLua\GenMember\ExportToLua_Construct.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLuaGener\UniToLuaGener\ExportToLua\GenMember\ExportToLua_Event.cs">
+        <Link>UniToLuaGener\ExportToLua\GenMember\ExportToLua_Event.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLuaGener\UniToLuaGener\ExportToLua\GenMember\ExportToLua_Field.cs">
+        <Link>UniToLuaGener\ExportToLua\GenMember\ExportToLua_Field.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLuaGener\UniToLuaGener\ExportToLua\GenMember\ExportToLua_Function.cs">
+        <Link>UniToLuaGener\ExportToLua\GenMember\ExportToLua_Function.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLuaGener\UniToLuaGener\ExportToLua\GenMember\ExportToLua_Operation.cs">
+        <Link>UniToLuaGener\ExportToLua\GenMember\ExportToLua_Operation.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLuaGener\UniToLuaGener\ExportToLua\GenMember\ExportToLua_Property.cs">
+        <Link>UniToLuaGener\ExportToLua\GenMember\ExportToLua_Property.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLuaGener\UniToLuaGener\ExportToLua\GenWrapper\ExportToLua_Class.cs">
+        <Link>UniToLuaGener\ExportToLua\GenWrapper\ExportToLua_Class.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLuaGener\UniToLuaGener\ExportToLua\GenWrapper\ExportToLua_Enum.cs">
+        <Link>UniToLuaGener\ExportToLua\GenWrapper\ExportToLua_Enum.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLuaGener\UniToLuaGener\ExportToLua\GenWrapper\ExportToLua_GenWrapper.cs">
+        <Link>UniToLuaGener\ExportToLua\GenWrapper\ExportToLua_GenWrapper.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLuaGener\UniToLuaGener\ExportToLua\GenWrapper\ExportToLua_StaticLib.cs">
+        <Link>UniToLuaGener\ExportToLua\GenWrapper\ExportToLua_StaticLib.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLuaGener\UniToLua\Logger.cs">
+        <Link>UniToLua\Logger.cs</Link>
+      </Compile>
+      <Compile Include="..\UniToLuaGener\UniToLua\Program.cs">
+        <Link>UniToLua\Program.cs</Link>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\UniToLuaGener\UniToLuaGener\ExportToLua\TODO.md">
+        <Link>UniToLuaGener\ExportToLua\TODO.md</Link>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\UniToLua-NetCore\UniToLua-NetCore.csproj" />
+    </ItemGroup>
+
+</Project>
