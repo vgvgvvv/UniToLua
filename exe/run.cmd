@@ -1,1 +1,0 @@
-UniToLua/UniToLuaGener.exe -path:output -dll:TestUniToLua.dll
